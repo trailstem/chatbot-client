@@ -17,6 +17,8 @@ function App() {
     setInputText(e.target.value);
   }, []);
 
+  const API_URL = process.env.REACT_APP_API_URL; // 環境変数を参照
+
   //実際のリクエスト処理
   const handleSubmit = useCallback(
     async (e) => {
@@ -34,10 +36,7 @@ function App() {
         body: JSON.stringify(formData),
       };
       //ログインエンドポイントにリクエスト
-      const response = await fetch(
-        "http://localhost:8080/chat",
-        requestOptions
-      );
+      const response = await fetch(`${API_URL}/chat`, requestOptions);
       if (!response.ok) {
         // レスポンスがエラーだった場合
         const data = await response.json();
@@ -63,10 +62,7 @@ function App() {
     };
     console.log(requestOptions.body);
     //ログインエンドポイントにリクエスト
-    const response = await fetch(
-      "http://localhost:8080/history/list",
-      requestOptions
-    );
+    const response = await fetch(`${API_URL}/history/list`, requestOptions);
     if (!response.ok) {
       // レスポンスがエラーだった場合
       const data = await response.json();
@@ -134,6 +130,18 @@ function App() {
         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         onClick={handleClick}
       />
+      <ul>
+        {historyChatList.map((data, index) => (
+          <li key={index} className="chat-item">
+            <div className="user-input">
+              {toDate(data.response_timestamp)} You ＞{data.user_input}
+            </div>
+            <div className="bot-response">
+              {toDate(data.response_timestamp)} Bot ＞{data.bot_response}
+            </div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
