@@ -2,7 +2,7 @@
 FROM node:18.16.0-alpine3.17 as builder 
 
 # 作業ディレクトリを設定 
-WORKDIR /speakbot-frontend
+WORKDIR /chatbot-client
 
 # システムへの依存関係をインストール 
 RUN apk update && apk add bash 
