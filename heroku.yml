@@ -1,0 +1,7 @@
+build:
+  docker:
+    web: Dockerfile
+  config:
+    REACT_APP_API_URL=: https://hogehuga2.herokuapp.com
+run:
+  web: sh -c "npm start"
