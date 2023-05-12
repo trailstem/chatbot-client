@@ -17,7 +17,8 @@ function App() {
     setInputText(e.target.value);
   }, []);
 
-  const API_URL = process.env.GO_APP_API_URL; // 環境変数を参照
+  // 環境変数を参照
+  const API_URL = process.env.REACT_APP_GO_API_URL;
 
   //実際のリクエスト処理
   const handleSubmit = useCallback(
@@ -48,7 +49,7 @@ function App() {
         setCurrentChat([...currentChat, data.response]);
       }
     },
-    [inputText]
+    [inputText, currentChat, API_URL]
   );
 
   const handleClick = useCallback(async (e) => {
