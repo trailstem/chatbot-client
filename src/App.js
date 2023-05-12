@@ -17,7 +17,7 @@ function App() {
     setInputText(e.target.value);
   }, []);
 
-  const API_URL = process.env.REACT_APP_API_URL; // 環境変数を参照
+  const API_URL = process.env.GO_APP_API_URL; // 環境変数を参照
 
   //実際のリクエスト処理
   const handleSubmit = useCallback(
