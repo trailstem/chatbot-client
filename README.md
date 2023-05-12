@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# chatbot-client (React.js, Tailwind CSS, Docker, Heroku)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+このプロジェクトのクライアントサイドは、React.js、Tailwind CSS、Docker、および Heroku を使用して開発されました。
 
-## Available Scripts
+## 使用技術
 
-In the project directory, you can run:
+- React.js: 効率的なユーザーインターフェースの構築のための JavaScript ライブラリ
+- Tailwind CSS: ユーティリティファーストの CSS フレームワーク
+- Docker: アプリケーションのコンテナ化技術
+- Heroku: クラウドベースのアプリケーションプラットフォーム
 
-### `npm start`
+## 外部 API
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- OpenWeatherMap: Web やモバイルアプリケーションの開発者に、現在の天候や予測履歴を含む各種気象データの無料 API を提供するオンラインサービ
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 実装方法
 
-### `npm test`
+### React.js
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. `create-react-app` を使って React.js のプロジェクトを作成しました。
+2. コンポーネントベースのアプローチを採用し、アプリケーションの各部分をモジュール化しました。
+3. 状態管理には、React の状態フックを使用しました。
 
-### `npm run build`
+### Tailwind CSS
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. プロジェクトに Tailwind CSS を導入しました。
+2. ユーティリティクラスを活用して、レスポンシブなデザインを実現しました。
+3. カスタムスタイルを適用するために、`@apply`ディレクティブを使用しました。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Docker
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Dockerfile を作成して、アプリケーションのコンテナ化を実現しました。
 
-### `npm run eject`
+## セットアップ
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. `npm install` コマンドを実行して、必要なパッケージをインストールしてください。
+2. `npm start` コマンドを実行して、開発サーバーを起動してください。
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+これでクライアントサイドがローカル環境で実行できるようになります。詳細については、[公式ドキュメント](リンク)を参照してください。
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## デプロイ
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Heroku CLI をインストールしてください。
+2. `heroku login` コマンドを実行し、Heroku アカウントにログインしてください。
+3. `heroku create` コマンドを実行して、新しい Heroku アプリを作成してください。
+4. `git push heroku main` コマンドを実行して、アプリケーションを Heroku にデプロイしてください。
+5. 必要に応じて、Heroku の環境変数を設定してください。
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+これでアプリが Heroku にデプロイされ、実行できるようになります。詳細については、[公式ドキュメント](リンク)を参照してください。
