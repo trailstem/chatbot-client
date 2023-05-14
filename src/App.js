@@ -3,19 +3,27 @@ import React, { useCallback, useState } from "react";
 import ResizeTextarea from "./components/ResizeTextarea";
 import Button from "./components/Button";
 import TextArea from "./components/TextArea";
+import PopupList from "./components/PopuList";
+
+import ErrorMessage from "./components/ErrorMessage";
+
 const API_URL = process.env.REACT_APP_GO_API_URL;
+
 function App() {
   //ユーザの入力状態管理
   const [inputText, setInputText] = useState("");
   //現時点のチャット履歴状態管理
   const [currentChat, setCurrentChat] = useState([]);
 
+  //現時点のユーザリクエスト時間
+  const [requestTime, setRequestTime] = useState([]);
+
   // 過去10件のチャット履歴状態管理
   const [historyChatList, setHistoryChatList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [value, setValue] = useState("");
+  const [error, setError] = useState(null); // 新たにエラーステートを追加
 
   // テキストボックスの入力値が変わった時に呼ばれる関数
   const handleInputChange = useCallback((e) => {
@@ -41,49 +49,51 @@ function App() {
         // formDataをJSONに変換
         body: JSON.stringify(formData),
       };
+
+      const nowTime = new Date();
       //ログインエンドポイントにリクエスト
       const response = await fetch(`${API_URL}/chat`, requestOptions);
       if (!response.ok) {
         // レスポンスがエラーだった場合
         const data = await response.json();
-        alert(data.error);
+        setError(data.error); // エラーをステートに保存
       } else {
         // レスポンスが正常だった場合
         const data = await response.json();
         setInputText("");
+
+        setRequestTime([
+          ...requestTime,
+          nowTime.toLocaleTimeString("ja-JP", { hour12: false }),
+        ]);
         setCurrentChat([...currentChat, data.response]);
       }
       setIsLoading(false);
     },
-    [inputText, currentChat]
+    [inputText, requestTime, currentChat]
   );
 
-  const handleClick = useCallback(
-    async (e) => {
-      e.preventDefault();
-      // リクエストオプションを設定
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      console.log(requestOptions.body);
-      //ログインエンドポイントにリクエスト
-      const response = await fetch(`${API_URL}/history/list`, requestOptions);
-      if (!response.ok) {
-        // レスポンスがエラーだった場合
-        const data = await response.json();
-        alert(data.error);
-      } else {
-        // レスポンスが正常だった場合
-        const data = await response.json();
-        console.log(data);
-        setHistoryChatList(data.history_list);
-      }
-    },
-    [currentChat]
-  );
+  const handleClick = useCallback(async (e) => {
+    e.preventDefault();
+    // リクエストオプションを設定
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    //ログインエンドポイントにリクエスト
+    const response = await fetch(`${API_URL}/history/list`, requestOptions);
+    if (!response.ok) {
+      // レスポンスがエラーだった場合
+      const data = await response.json();
+      setError(data.error); // エラーをステートに保存
+    } else {
+      // レスポンスが正常だった場合
+      const data = await response.json();
+      setHistoryChatList(data.history_list);
+    }
+  }, []);
 
   const toDate = (date) => {
     //en-USを日本時刻に設定
@@ -99,6 +109,8 @@ function App() {
 
   return (
     <>
+      <ErrorMessage error={error} setError={setError} />{" "}
+      {/* pass the setError function to ErrorMessage */}
       {/* 独自作成したTextBoxコンポーネントを使用 */}
       <form onSubmit={handleSubmit}>
         <div className="mt-10">
@@ -113,7 +125,7 @@ function App() {
               <Button
                 name="送信"
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded fixed top-11"
                 disabled={isLoading}
               />
             </div>
@@ -126,7 +138,7 @@ function App() {
               {currentChat.map((data, index) => (
                 <li key={index} className="">
                   <div className="flex items-start">
-                    <div>{toDate(data.response_timestamp)} You ＞</div>
+                    <div>{requestTime[index]} You ＞</div>
                     <div className="flex-grow">
                       <TextArea
                         value={data.user_input}
@@ -152,25 +164,10 @@ function App() {
           </div>
         </div>
       </form>
-
-      <Button
-        name="履歴一覧"
-        type="submit"
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleClick}
-      />
-      <ul>
-        {historyChatList.map((data, index) => (
-          <li key={index} className="chat-item">
-            <div className="user-input">
-              {toDate(data.response_timestamp)} You ＞{data.user_input}
-            </div>
-            <div className="bot-response">
-              {toDate(data.response_timestamp)} Bot ＞{data.bot_response}
-            </div>
-          </li>
-        ))}
-      </ul>
+      {/* 画面中央下に表示 className設定*/}
+      <div className="fixed bottom-0 flex items-end justify-center w-full pb-5">
+        <PopupList dataList={historyChatList} onClick={handleClick} />
+      </div>
     </>
   );
 }
