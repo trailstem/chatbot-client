@@ -31,33 +31,34 @@ const PopupList = ({ dataList, onClick }) => {
           <div className="bg-slate-500 fixed inset-0 flex flex-col items-center justify-center z-50">
             <div className="bg-blue-300 w-1/2 h-1/2 overflow-auto p-4 rounded-md">
               <ul>
-                {dataList.map((data, index) => (
-                  <li key={index} className="">
-                    <div className="">
-                      {numberToEnclosedAlphanumerics(index + 1)}
-                    </div>
-                    <div className="flex items-start">
-                      You ＞
-                      <div className="flex-grow">
-                        <ResizeTextarea
-                          value={data.user_input}
-                          className="w-full resize-none overflow-hidden bg-white border-none rounded-md"
-                          isDisabled={true}
-                        />
+                {dataList &&
+                  dataList.map((data, index) => (
+                    <li key={index} className="">
+                      <div className="">
+                        {numberToEnclosedAlphanumerics(index + 1)}
                       </div>
-                    </div>
-                    <div className="flex items-start">
-                      Bot＞
-                      <div className="flex-grow">
-                        <ResizeTextarea
-                          value={data.bot_response}
-                          className="w-full resize-none overflow-hidden bg-white border-none rounded-md"
-                          isDisabled={true}
-                        />
+                      <div className="flex items-start">
+                        You ＞
+                        <div className="flex-grow">
+                          <ResizeTextarea
+                            value={data.user_input}
+                            className="w-full resize-none overflow-hidden bg-white border-none rounded-md"
+                            isDisabled={true}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
+                      <div className="flex items-start">
+                        Bot＞
+                        <div className="flex-grow">
+                          <ResizeTextarea
+                            value={data.bot_response}
+                            className="w-full resize-none overflow-hidden bg-white border-none rounded-md"
+                            isDisabled={true}
+                          />
+                        </div>
+                      </div>
+                    </li>
+                  ))}
               </ul>
             </div>
             <Button
