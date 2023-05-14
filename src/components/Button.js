@@ -11,6 +11,7 @@ export const Button = memo((props) => {
           className={props.className}
           name={props.name}
           onClick={props.onClick}
+          disabled={props.disabled}
         >
           {props.name}
         </button>
