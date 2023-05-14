@@ -13,6 +13,3 @@ COPY . .
 # 依存関係をインストール 
 RUN npm install 
 
-# # 開放するポートを指定
-# EXPOSE 3000 
-
