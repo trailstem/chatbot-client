@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { ResizeTextarea } from "./components/ResizeTextarea";
 
 import Button from "./components/Button";
-import { PopupList } from "./components/PopuList";
+import { PopupList } from "./components/PopupList";
 
 import { ErrorMessage } from "./components/ErrorMessage";
 
