@@ -1,5 +1,6 @@
 import memo from "react";
 
+// 汎用的なテキスエリア
 export const TextArea = memo((props) => {
   return (
     <>
