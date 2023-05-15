@@ -126,7 +126,7 @@ function App() {
             <ResizeTextarea
               value={inputText}
               className="w-1/2 border-2 border-gray-200 resize-none rounded-md"
-              placeholder="質問したい内容を入力してください"
+              placeholder="チャットしたい内容を入力してください"
               onChange={handleInputChange}
             />
             <div className="pl-3">
