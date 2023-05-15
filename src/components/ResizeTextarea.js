@@ -35,3 +35,5 @@ export const ResizeTextarea = memo((props) => {
     ></textarea>
   );
 });
+
+export default ResizeTextarea;
