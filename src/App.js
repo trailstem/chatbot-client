@@ -1,40 +1,41 @@
 import React, { useCallback, useState } from "react";
 
-import ResizeTextarea from "./components/ResizeTextarea";
-import Button from "./components/Button";
-import TextArea from "./components/TextArea";
-import PopupList from "./components/PopuList";
+import { ResizeTextarea } from "./components/ResizeTextarea";
 
-import ErrorMessage from "./components/ErrorMessage";
+import Button from "./components/Button";
+import { PopupList } from "./components/PopuList";
+
+import { ErrorMessage } from "./components/ErrorMessage";
 
 const API_URL = process.env.REACT_APP_GO_API_URL;
 
 function App() {
   //ユーザの入力状態管理
   const [inputText, setInputText] = useState("");
-  //現時点のチャット履歴状態管理
+  //現時点のチャット履歴
   const [currentChat, setCurrentChat] = useState([]);
 
   //現時点のユーザリクエスト時間
   const [requestTime, setRequestTime] = useState([]);
 
-  // 過去10件のチャット履歴状態管理
+  // 過去10件のチャット履歴
   const [historyChatList, setHistoryChatList] = useState([]);
 
+  // リクスト押下にボタンを二重押下防止
   const [isLoading, setIsLoading] = useState(false);
 
-  const [error, setError] = useState(null); // 新たにエラーステートを追加
+  // エラー状態管理
+  const [error, setError] = useState(null);
 
   // テキストボックスの入力値が変わった時に呼ばれる関数
   const handleInputChange = useCallback((e) => {
     setInputText(e.target.value);
   }, []);
 
-  // 環境変数を参照
-
   //実際のリクエスト処理
   const handleSubmit = useCallback(
     async (e) => {
+      // ボタンを二重押下防止
       setIsLoading(true);
       e.preventDefault();
       const formData = {
@@ -50,6 +51,7 @@ function App() {
         body: JSON.stringify(formData),
       };
 
+      // 現在時刻を取得
       const nowTime = new Date();
       //ログインエンドポイントにリクエスト
       const response = await fetch(`${API_URL}/chat`, requestOptions);
@@ -62,14 +64,19 @@ function App() {
         const data = await response.json();
         setInputText("");
 
+        // リクエスト時間をステートに保存
         setRequestTime([
           ...requestTime,
           nowTime.toLocaleTimeString("ja-JP", { hour12: false }),
         ]);
+
+        // レスポンスを配列に追加していく
         setCurrentChat([...currentChat, data.response]);
       }
+      // ボタンdisabled解除
       setIsLoading(false);
     },
+
     [inputText, requestTime, currentChat]
   );
 
@@ -140,10 +147,11 @@ function App() {
                   <div className="flex items-start">
                     <div>{requestTime[index]} You ＞</div>
                     <div className="flex-grow">
-                      <TextArea
+                      <ResizeTextarea
                         value={data.user_input}
                         className="w-full resize-none overflow-hidden bg-white border-none rounded-md"
                         isDisabled={true}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>
