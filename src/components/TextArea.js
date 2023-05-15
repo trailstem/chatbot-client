@@ -1,4 +1,6 @@
-export const TextArea = (props) => {
+import memo from "react";
+
+export const TextArea = memo((props) => {
   return (
     <>
       {/* propsから値を受け取る汎用的なtextarea作成 */}
@@ -12,6 +14,6 @@ export const TextArea = (props) => {
       ></textarea>
     </>
   );
-};
+});
 
 export default TextArea;

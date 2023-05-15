@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 
-const ResizeTextarea = (props) => {
+export const ResizeTextarea = memo((props) => {
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +28,6 @@ const ResizeTextarea = (props) => {
       {...props}
     ></textarea>
   );
-};
+});
 
 export default ResizeTextarea;

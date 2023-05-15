@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import ResizeTextarea from "./ResizeTextarea";
 import Button from "./Button";
 
-const PopupList = ({ dataList, onClick }) => {
+export const PopupList = memo(({ dataList, onClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = (e) => {
     setIsOpen(true);
@@ -71,6 +71,6 @@ const PopupList = ({ dataList, onClick }) => {
       )}
     </>
   );
-};
+});
 
-export default PopupList;
+
