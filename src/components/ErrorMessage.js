@@ -1,31 +1,45 @@
-import { memo, useEffect } from "react";
-import { CSSTransition } from "react-transition-group";
+// Reactと必要なフックをインポートします
+import React, { memo, useEffect, useState } from "react";
 
-const ErrorMessage = memo(({ error, setError }) => {
-  // clear the error message after 3 seconds
+// エラーメッセージを表示するコンポーネントを定義します
+export const ErrorMessage = memo(({ error, setError }) => {
+  // エラーメッセージの表示状態を管理するstate
+  const [isVisible, setIsVisible] = useState(false);
+  // エラーメッセージのフェードアウト開始状態を管理するstate
+  const [isFading, setIsFading] = useState(false);
+
+  // エラーが存在するときにエラーメッセージの表示とフェードアウトを制御する
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(() => setError(null), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [error, setError]);
-  return (
-    <CSSTransition
-      in={error} // エラーメッセージが存在する場合にtrue
-      timeout={1000} // transitionの時間
-      classNames={{
-        enter: "opacity-0",
-        enterActive: "opacity-100 transition-opacity duration-300",
-        exit: "opacity-100",
-        exitActive: "opacity-0 transition-opacity duration-300",
-      }}
-      unmountOnExit // エラーメッセージがないときはアンマウント
-    >
-      <div className="fixed z-50 flex items-center justify-center w-full h-full">
-        <div className="bg-red-500 text-white py-2 px-4 rounded">{error}</div>
-      </div>
-    </CSSTransition>
-  );
-});
+      // エラーが存在する場合
+      setIsFading(false); // フェードアウトを初期状態にリセットします
+      setIsVisible(true); // エラーメッセージを表示します
 
-export default ErrorMessage;
+      const timer1 = setTimeout(() => {
+        setIsFading(true); // 3秒後にフェードアウトを開始します
+      }, 3000);
+
+      const timer2 = setTimeout(() => {
+        setIsVisible(false); // 5秒後にエラーメッセージを非表示にします
+        setError(null); // エラーをクリアします
+      }, 5000);
+
+      // クリーンアップ関数では、タイマーをクリアします
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
+    }
+  }, [error, setError]); // useEffectフックはerrorまたはsetErrorが変更されたときに再実行されます
+
+  // エラーメッセージを表示します（isVisibleがtrueの場合のみ）
+  return isVisible ? (
+    <div
+      className={`fixed z-50 flex items-center justify-center w-full h-full transition-opacity duration-300 ${
+        isFading ? "opacity-0" : "opacity-100"
+      }`}
+    >
+      <div className="bg-red-500 text-white py-2 px-4 rounded">{error}</div>
+    </div>
+  ) : null; // isVisibleがfalseの場合は何も表示しません
+});
