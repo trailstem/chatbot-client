@@ -1,16 +1,22 @@
 import React, { useRef, useEffect, memo } from "react";
 
+// 可変テキストエリアコンポーネント
 export const ResizeTextarea = memo((props) => {
+  //domの参照
   const textareaRef = useRef(null);
-
   useEffect(() => {
+    // テキストエリアの高さを自動調整する
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
   }, [props.value]);
 
+  // テキストエリアの内容が変更された時のハンドラー
   const onChangeHandler = (e) => {
+    // テキストエリアの高さを自動調整する
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+
+    // 外部から渡されたonChangeプロパティが存在する場合は呼び出す
     if (props.onChange) {
       props.onChange(e);
     }
@@ -29,5 +35,3 @@ export const ResizeTextarea = memo((props) => {
     ></textarea>
   );
 });
-
-export default ResizeTextarea;

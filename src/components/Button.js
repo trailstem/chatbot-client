@@ -1,10 +1,9 @@
-//memoを使用する
 import React, { memo } from "react";
 
+/* 汎用的なボタンを作成 */
 export const Button = memo((props) => {
   return (
     <>
-      {/* 汎用的なボタンを作成 */}
       <div className="">
         <button
           type={props.type}

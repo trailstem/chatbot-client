@@ -32,7 +32,7 @@ function App() {
     setInputText(e.target.value);
   }, []);
 
-  //実際のリクエスト処理
+  //実際のチャットリクエスト処理
   const handleSubmit = useCallback(
     async (e) => {
       // ボタンを二重押下防止
@@ -53,33 +53,33 @@ function App() {
 
       // 現在時刻を取得
       const nowTime = new Date();
-      //ログインエンドポイントにリクエスト
+      //リクエスト
       const response = await fetch(`${API_URL}/chat`, requestOptions);
       if (!response.ok) {
         // レスポンスがエラーだった場合
         const data = await response.json();
-        setError(data.error); // エラーをステートに保存
+        //エラー表示
+        setError(data.error);
       } else {
         // レスポンスが正常だった場合
         const data = await response.json();
         setInputText("");
-
-        // リクエスト時間をステートに保存
+        // ユーザのリクエスト時間を保存
         setRequestTime([
           ...requestTime,
           nowTime.toLocaleTimeString("ja-JP", { hour12: false }),
         ]);
 
-        // レスポンスを配列に追加していく
+        // レスポンスを配列に追加し、画面に表示
         setCurrentChat([...currentChat, data.response]);
       }
       // ボタンdisabled解除
       setIsLoading(false);
     },
-
     [inputText, requestTime, currentChat]
   );
 
+  // 過去チャット10件取得処理
   const handleClick = useCallback(async (e) => {
     e.preventDefault();
     // リクエストオプションを設定
@@ -89,21 +89,24 @@ function App() {
         "Content-Type": "application/json",
       },
     };
-    //ログインエンドポイントにリクエスト
+    //リクエスト
     const response = await fetch(`${API_URL}/history/list`, requestOptions);
     if (!response.ok) {
       // レスポンスがエラーだった場合
       const data = await response.json();
-      setError(data.error); // エラーをステートに保存
+      //エラー表示
+      setError(data.error);
     } else {
       // レスポンスが正常だった場合
       const data = await response.json();
+      // レスポンスを配列に追加し、状態設定
       setHistoryChatList(data.history_list);
     }
   }, []);
 
+  // ミリ秒を時刻に変換
   const toDate = (date) => {
-    //en-USを日本時刻に設定
+    //日本時刻に設定してhh:mm:ss形式で返す
     const timeStr = new Date(date).toLocaleTimeString("ja-JP", {
       hour12: false,
       hour: "2-digit",
@@ -117,8 +120,6 @@ function App() {
   return (
     <>
       <ErrorMessage error={error} setError={setError} />{" "}
-      {/* pass the setError function to ErrorMessage */}
-      {/* 独自作成したTextBoxコンポーネントを使用 */}
       <form onSubmit={handleSubmit}>
         <div className="mt-10">
           <div className="flex justify-center items-center">

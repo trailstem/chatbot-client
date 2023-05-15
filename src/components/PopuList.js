@@ -2,20 +2,24 @@ import React, { useState, memo } from "react";
 import ResizeTextarea from "./ResizeTextarea";
 import Button from "./Button";
 
+// チャット履歴モーダル
 export const PopupList = memo(({ dataList, onClick }) => {
+  //モーダル状態管理
   const [isOpen, setIsOpen] = useState(false);
+  // モーダルを開く
   const handleClick = (e) => {
     setIsOpen(true);
+    // 親コンポーネントのonClickを実行（過去チャット10件取得処理）
     onClick(e);
   };
 
+  // 数字を丸囲み数字に変換
   const numberToEnclosedAlphanumerics = (number) => {
-    // Enclosed Alphanumerics Unicode starts from 9312 for numbers 1 to 20
+    // Unicode コードポイント 9312である丸囲み数字を表示
     const unicodeStart = 9312;
     if (number >= 1 && number <= 20) {
       return String.fromCodePoint(unicodeStart + number - 1);
     }
-    // Return the number itself if it's out of range
     return number;
   };
 
@@ -26,6 +30,7 @@ export const PopupList = memo(({ dataList, onClick }) => {
         onClick={handleClick}
         name="データを表示"
       />
+      {/* モーダル表示 */}
       {isOpen && (
         <>
           <div className="bg-slate-500 fixed inset-0 flex flex-col items-center justify-center z-50">
@@ -72,5 +77,3 @@ export const PopupList = memo(({ dataList, onClick }) => {
     </>
   );
 });
-
-

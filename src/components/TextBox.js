@@ -1,6 +1,7 @@
 //memoを使用する
 import React, { memo } from "react";
 
+//汎用的なテキストボックス
 export const TextBox = memo((props) => {
   return (
     <>
