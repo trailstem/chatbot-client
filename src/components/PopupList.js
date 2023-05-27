@@ -20,6 +20,7 @@ export const PopupList = memo(({ dataList, onClick }) => {
     if (number >= 1 && number <= 20) {
       return String.fromCodePoint(unicodeStart + number - 1);
     }
+    //丸囲みではなく普通の数字を表示
     return number;
   };
 
@@ -53,7 +54,7 @@ export const PopupList = memo(({ dataList, onClick }) => {
                         </div>
                       </div>
                       <div className="flex items-start">
-                        Bot＞
+                        Bot ＞
                         <div className="flex-grow">
                           <ResizeTextarea
                             value={data.bot_response}

@@ -5,7 +5,9 @@ export const ResizeTextarea = memo((props) => {
   //domの参照
   const textareaRef = useRef(null);
   useEffect(() => {
+    // 【データを表示する】の初期表示時に、テキストエリアの高さを自動調整する
     // テキストエリアの高さを自動調整する
+    //高さ増減制御のため[auto]
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
   }, [props.value]);
