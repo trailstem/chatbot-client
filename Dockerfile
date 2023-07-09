@@ -1,15 +1,23 @@
-# ベースイメージとして、Node.jsのAlpine Linuxを使用 
-FROM node:18.16.0-alpine3.17 as builder 
-
-# 作業ディレクトリを設定 
+FROM node:18.16.0-alpine3.17 as dev
 WORKDIR /app
-
-# システムへの依存関係をインストール 
 RUN apk update && apk add bash 
-
-# ルートディレクトリ配下をコピー
 COPY . .
+RUN npm install
 
-# 依存関係をインストール 
+
+# 本番環境
+# docker build -t chatbot-repo-client --platform linux/amd64 .
+FROM node:18.16.0-alpine3.17 as build
+WORKDIR /app
+RUN apk add --no-cache bash 
+COPY . .
 RUN npm install 
+RUN npm run build
+
+FROM nginx:alpine
+RUN apk add --no-cache bash
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
